@@ -1,0 +1,22 @@
+{
+  "name": "lambda-edge-resize",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sudick/senipio-lambda-edge.git"
+  },
+  "author": "pionia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sudick/senipio-lambda-edge/issues"
+  },
+  "homepage": "https://github.com/sudick/senipio-lambda-edge#readme",
+  "dependencies": {
+    "sharp": "^0.30.7"
+  }
+}
