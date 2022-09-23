@@ -1,6 +1,8 @@
 const querystring = require('querystring'); // Don't install.
 const AWS = require('aws-sdk'); // Don't install.
 const Sharp = require('sharp');
+const {filterRawFile} = require('./filter');
+const dcraw = require('dcraw');
 
 const S3 = new AWS.S3({
   region: 'ap-northeast-2'
@@ -58,8 +60,17 @@ exports.handler = async (event, context, callback) => {
     return callback(error);
   }
 
+  let imageUrl = s3Object.Body;
+  if (filterRawFile(extension)) {
+    const buf = new Uint8Array(s3Object.Body);
+    const thumbnail = dcraw(buf, { extractThumbnail: true });
+    const blob = new Blob([thumbnail], { type: "image/jpeg" });
+    const urlCreator = window.URL || window.webkitURL;
+    imageUrl = urlCreator.createObjectURL(blob);
+  }
+
   try {
-    resizedImage = await Sharp(s3Object.Body)
+    resizedImage = await Sharp(imageUrl)
       .resize(width,height,{fit:fit})
       .toFormat(format, {
         quality
